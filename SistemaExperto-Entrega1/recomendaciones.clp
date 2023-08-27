@@ -94,6 +94,23 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
 
+   (deffacts respuestas
+   (puntos 0))
+
+    (defrule pregunta-ropa
+    =>
+    (printout t "Del 1 al 5, ¿qué tanto te gusta la ropa? (1-5): ")
+    (bind ?respuesta (read))
+    (if (and (numberp ?respuesta)
+            (<= 1 ?respuesta 5))
+        then
+        (modify ?puntos (puntos (+ ?puntos ?respuesta)))
+        else
+        (printout t "Por favor, ingresa una opción válida (1-5)." crlf)
+        (assert (pregunta-ropa)))
+)
+ 
+
    (printout t "¿Prefieres la moda vintage o las tendencias contemporáneas? (Respuesta numérica del 1 al 5). 1 es preferencia a la moda vintage, 5 es preferencia a la contemporánea")
    (bind ?respuesta (read))
    (bind ?puntos (+ ?puntos ?respuesta)) 
