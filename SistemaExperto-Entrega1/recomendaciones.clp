@@ -94,27 +94,6 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
 
-   (deffacts respuestas
-   (puntos 0))
-
-    (defrule pregunta-ropa
-    =>
-    (printout t "Del 1 al 5, ¿qué tanto te gusta la ropa? (1-5): ")
-    (bind ?respuesta (read))
-    (if (and (numberp ?respuesta)
-            (<= 1 ?respuesta 5))
-        then
-        (modify ?puntos (puntos (+ ?puntos ?respuesta)))
-        else
-        (printout t "Por favor, ingresa una opción válida (1-5)." crlf)
-        (assert (pregunta-ropa)))
-)
- 
-
-   (printout t "¿Prefieres la moda vintage o las tendencias contemporáneas? (Respuesta numérica del 1 al 5). 1 es preferencia a la moda vintage, 5 es preferencia a la contemporánea")
-   (bind ?respuesta (read))
-   (bind ?puntos (+ ?puntos ?respuesta)) 
-
    (printout t "¿Has asistido a alguna exposición de moda en un museo? (si/no)")
    (bind ?respuesta (read))
    (if (eq ?respuesta si)
@@ -133,8 +112,20 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
 
+     (bind ?respuesta-num -1)
+   (while (not (and (integerp ?respuesta-num) (<= 1 ?respuesta-num 5)))
+      (printout t "¿Prefieres la moda vintage o las tendencias contemporáneas? (Respuesta numérica del 1 al 5). 1 es preferencia a la moda vintage, 5 es preferencia a la contemporánea ")
+      (bind ?respuesta-num (read))
+      (if (not (and (integerp ?respuesta-num) (<= 1 ?respuesta-num 5)))
+         then
+         (printout t "Respuesta no válida. Por favor, ingresa un número entre 1 y 5." crlf)))
+
+   (bind ?puntos (+ ?puntos ?respuesta-num))
+
    (printout t "Total de puntos obtenidos: " ?puntos crlf)
+   
 )
+
 
 (defrule recomendacion-Tecnologia
    (area-interes Tecnologia)
