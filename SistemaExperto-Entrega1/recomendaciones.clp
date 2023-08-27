@@ -1,15 +1,25 @@
-(defrule iniciar
-   =>
-   (printout t "¡Bienvenido al sistema experto de recomendación de carreras!" crlf)
-   (printout t "Por favor responda algunas preguntas para recibir una recomendación." crlf))
+(deffunction sugerir_carreras (?puntos ?interes)
+    (bind ?textoFinal "Te sugerimos: ")
+    (printout t ?puntos crlf)
+     (if (eq ?interes "Matemáticas")
+       
+    )
+    (printout t ?textoFinal)
+)
 
 (defrule pregunta-interes
    =>
+   
+   (printout t "¡Bienvenido al sistema experto de recomendación de sugerir_carreras!" crlf)
+   (printout t "Por favor responda algunas preguntas para recibir una recomendación." crlf)
    (printout t "¿Cuál es su area de interes? (Matematicas / Moda / Tecnologia / Química / Lenguas / Historia)" crlf)
    (bind ?interes (read))
    (assert (area-interes ?interes)))
 
 ;;;Cuestionario Matemáticas
+
+
+
 (defrule recomendacion-Matematicas
    (area-interes Matematicas)
    =>
@@ -63,7 +73,7 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
 
-   (printout t "Total de puntos obtenidos: " ?puntos crlf)
+   (sugerir_carreras ?puntos "Matematicas")
 )
 
 (defrule recomendacion-Moda
@@ -114,7 +124,7 @@
 
      (bind ?respuesta-num -1)
    (while (not (and (integerp ?respuesta-num) (<= 1 ?respuesta-num 5)))
-      (printout t "¿Prefieres la moda vintage o las tendencias contemporáneas? (Respuesta numérica del 1 al 5). 1 es preferencia a la moda vintage, 5 es preferencia a la contemporánea ")
+      (printout t "¿Qué tanto te gusta la vestimenta contemporánea? (Respuesta numérica del 1 al 5). 1 es nada, 5 es mucho" crlf)
       (bind ?respuesta-num (read))
       (if (not (and (integerp ?respuesta-num) (<= 1 ?respuesta-num 5)))
          then
@@ -123,7 +133,7 @@
    (bind ?puntos (+ ?puntos ?respuesta-num))
 
    (printout t "Total de puntos obtenidos: " ?puntos crlf)
-   
+   (sugerir_carreras ?puntos "Moda")
 )
 
 
@@ -178,7 +188,8 @@
    (if (eq ?respuesta si)
        then
        (bind ?puntos (+ ?puntos 1))) 
-   (printout t "Total de puntos obtenidos: " ?puntos crlf)
+    (sugerir_carreras ?puntos "Tecnologia")
+
 )
 
 (defrule recomendacion-Química
@@ -233,7 +244,7 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
     
-   (printout t "Total de puntos obtenidos: " ?puntos crlf)
+     (sugerir_carreras ?puntos "Quimica")
 )
 
 (defrule recomendacion-Lenguas
@@ -289,7 +300,7 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
     
-   (printout t "Total de puntos obtenidos: " ?puntos crlf)
+     (sugerir_carreras ?puntos "Lenguas")
 )
 
 (defrule recomendacion-Historia
@@ -344,5 +355,6 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
     
-   (printout t "Total de puntos obtenidos: " ?puntos crlf)
+    (sugerir_carreras ?puntos "Historia")
 )
+
