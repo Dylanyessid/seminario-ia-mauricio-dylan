@@ -1,4 +1,5 @@
 (deffunction sugerir_carreras (?puntos ?materia)
+    (printout t ?puntos crlf)
    (bind ?textoFinal "Te sugerimos: ")
    
    (if (eq ?materia "Matematicas")
@@ -22,10 +23,123 @@
                  )
             )
        )
-       else
-       (bind ?textoFinal (str-cat ?textoFinal "Otra opción"))
+      
    )
-   
+   (if (eq ?materia "Moda")
+       then
+       (if (and (>= ?puntos 1) (< ?puntos 5))
+            then
+            (bind ?textoFinal (str-cat ?textoFinal "Asesoría de Imagen"))
+         else
+            (if (and (>= ?puntos 5) (< ?puntos 8))
+                 then
+                 (bind ?textoFinal (str-cat ?textoFinal "Asesoría de Imagen, Diseño de Moda"))
+              else
+                 (if (and (>= ?puntos 8) (< ?puntos 11))
+                      then
+                      (bind ?textoFinal (str-cat ?textoFinal "Asesoría de Imagen, Diseño de Moda, Gestión de la Moda"))
+                   else
+                      (if (>= ?puntos 11)
+                           then
+                           (bind ?textoFinal (str-cat ?textoFinal "Asesoría de Imagen, Diseño de Moda, Gestión de la Moda, Diseño Textil"))
+                      )
+                 )
+            )
+       )
+      
+   )
+   (if (eq ?materia "Tecnologia")
+       then
+       (if (and (>= ?puntos 1) (< ?puntos 3))
+            then
+            (bind ?textoFinal (str-cat ?textoFinal "Soporte Técnico"))
+         else
+            (if (and (>= ?puntos 3) (< ?puntos 6))
+                 then
+                 (bind ?textoFinal (str-cat ?textoFinal "Soporte Técnico, Desarrollo Web"))
+              else
+                 (if (and (>= ?puntos 6) (< ?puntos 8))
+                      then
+                      (bind ?textoFinal (str-cat ?textoFinal "Soporte Técnico, Desarrollo Web, Ingeniería de Software"))
+                   else
+                      (if (>= ?puntos 8)
+                           then
+                           (bind ?textoFinal (str-cat ?textoFinal "Soporte Técnico, Desarrollo Web, Ingeniería de Software, Inteligencia Artificial y Aprendizaje Automático"))
+                      )
+                 )
+            )
+       )
+      
+   )
+    (if (eq ?materia "Quimica")
+       then
+       (if (and (>= ?puntos 1) (< ?puntos 3))
+            then
+            (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Química"))
+         else
+            (if (and (>= ?puntos 3) (< ?puntos 6))
+                 then
+                 (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Química, Ingeniería Química"))
+              else
+                 (if (and (>= ?puntos 6) (< ?puntos 8))
+                      then
+                      (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Química, Ingeniería Química, Bioquímica"))
+                   else
+                      (if (>= ?puntos 8)
+                           then
+                           (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Química, Ingeniería Química, Bioquímica y Química Ambiental"))
+                      )
+                 )
+            )
+       )
+      
+   )
+    (if (eq ?materia "Lenguas")
+       then
+       (if (and (>= ?puntos 1) (< ?puntos 3))
+            then
+            (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Lenguas Modernas"))
+         else
+            (if (and (>= ?puntos 3) (< ?puntos 6))
+                 then
+                 (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Lenguas Modernas, Lingüística Aplicada"))
+              else
+                 (if (and (>= ?puntos 6) (< ?puntos 8))
+                      then
+                      (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Lenguas Modernas, Lingüística Aplicada, Enseñanza de Lenguas Extranjeras"))
+                   else
+                      (if (>= ?puntos 8)
+                           then
+                           (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Lenguas Modernas, Lingüística Aplicada, Enseñanza de Lenguas Extranjeras y Filología"))
+                      )
+                 )
+            )
+       )
+      
+   )
+    (if (eq ?materia "Historia")
+       then
+       (if (and (>= ?puntos 1) (< ?puntos 3))
+            then
+            (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Historia"))
+         else
+            (if (and (>= ?puntos 3) (< ?puntos 6))
+                 then
+                 (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Historia, Licenciatura en Arqueología"))
+              else
+                 (if (and (>= ?puntos 6) (< ?puntos 8))
+                      then
+                      (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Historia, Licenciatura en Arqueología, Licenciatura en Historia del Arte"))
+                   else
+                      (if (>= ?puntos 8)
+                           then
+                           (bind ?textoFinal (str-cat ?textoFinal "Licenciatura en Historia, Licenciatura en Arqueología, Licenciatura en Historia del Arte y Licenciatura en Historia y Ciencias Sociales"))
+                      )
+                 )
+            )
+       )
+      
+   )
    (printout t ?textoFinal crlf)
 )
 
@@ -172,7 +286,7 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
 
-   (printout t " ¿Te interesa aprender a programar aplicaciones? (si/no) ")
+   (printout t "¿Sientes curiosidad por la programación y te gustaría aprender a crear tus propias aplicaciones o sitios web en el futuro? (si/no) ")
    (bind ?respuesta (read))
    (if (eq ?respuesta si)
        then
@@ -197,6 +311,12 @@
        (bind ?puntos (+ ?puntos 1))) 
    
    (printout t "¿Tienes experiencia en el uso de asistentes virtuales como Siri o Alexa?(si/no)")
+   (bind ?respuesta (read))
+   (if (eq ?respuesta si)
+       then
+       (bind ?puntos (+ ?puntos 1))) 
+
+    (printout t "¿Te emociona la idea de aprender sobre las últimas tendencias en dispositivos electrónicos y gadgets?(si/no)")
    (bind ?respuesta (read))
    (if (eq ?respuesta si)
        then
