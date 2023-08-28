@@ -11,6 +11,7 @@ env.load("recomendaciones.clp")
 
 # Ejecuta el sistema
 env.reset()
+
 env.run()
 
 

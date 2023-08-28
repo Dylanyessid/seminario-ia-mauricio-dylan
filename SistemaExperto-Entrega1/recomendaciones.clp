@@ -1,9 +1,35 @@
-(deffunction sugerir_carreras (?puntos ?interes)
-    (bind ?textoFinal "Te sugerimos: ")
-    (printout t ?puntos crlf)
-     
-    (printout t ?textoFinal)
+(deffunction sugerir_carreras (?puntos ?materia)
+   (bind ?textoFinal "Te sugerimos: ")
+   
+   (if (eq ?materia "Matematicas")
+       then
+       (if (and (>= ?puntos 1) (< ?puntos 3))
+            then
+            (bind ?textoFinal (str-cat ?textoFinal "Ingeniería"))
+         else
+            (if (and (>= ?puntos 3) (< ?puntos 5))
+                 then
+                 (bind ?textoFinal (str-cat ?textoFinal "Ingeniería, Ciencias de la Computación"))
+              else
+                 (if (and (>= ?puntos 5) (< ?puntos 7))
+                      then
+                      (bind ?textoFinal (str-cat ?textoFinal "Ingeniería, Ciencias de la Computación, Estadística"))
+                   else
+                      (if (>= ?puntos 7)
+                           then
+                           (bind ?textoFinal (str-cat ?textoFinal "Ingeniería, Ciencias de la Computación, Estadística, Física"))
+                      )
+                 )
+            )
+       )
+       else
+       (bind ?textoFinal (str-cat ?textoFinal "Otra opción"))
+   )
+   
+   (printout t ?textoFinal crlf)
 )
+
+
 
 (defrule pregunta-interes
    =>
@@ -71,6 +97,7 @@
        then
        (bind ?puntos (+ ?puntos 1))) 
 
+    
    (sugerir_carreras ?puntos "Matematicas")
 )
 
