@@ -1,9 +1,7 @@
 (deffunction sugerir_carreras (?puntos ?interes)
     (bind ?textoFinal "Te sugerimos: ")
     (printout t ?puntos crlf)
-     (if (eq ?interes "Matemáticas")
-       
-    )
+     
     (printout t ?textoFinal)
 )
 
