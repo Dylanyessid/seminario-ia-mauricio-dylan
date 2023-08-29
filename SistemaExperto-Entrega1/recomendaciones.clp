@@ -143,8 +143,6 @@
    (printout t ?textoFinal crlf)
 )
 
-
-
 (defrule pregunta-interes
    =>
    
@@ -337,8 +335,8 @@
 
 )
 
-(defrule recomendacion-Química
-   (area-interes Química)
+(defrule recomendacion-Quimica
+   (area-interes Quimica)
    =>
    (bind ?puntos 0) 
    (printout t "Te preguntas sobre los ingredientes de los productos que usas? (si/no)")
