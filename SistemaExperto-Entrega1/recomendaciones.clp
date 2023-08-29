@@ -142,6 +142,11 @@
        )
       
    )
+   (if (eq ?puntos 0) 
+        then
+        (bind ?textoFinal (str-cat ?textoFinal "Busca en otra área, ya que esta area que escogiste puede que no te interese mucho en realidad"))
+        
+   )
    (printout t ?textoFinal crlf)
 )
 
