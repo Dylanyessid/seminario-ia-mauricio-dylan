@@ -1,67 +1,93 @@
 import numpy as np
 
-# Ejemplo de características de texto (esto debe ser reemplazado por un conjunto de datos real)
-text_features = [
-    "Me siento muy feliz",
-    "Esto es terrible",
-    "Me encanta este lugar",
-    "Estoy triste",
-    "Es un día normal"
+# Función de activación (en este caso, softmax para clasificación multicategórica)
+def softmax(x):
+    e_x = np.exp(x - np.max(x))  # Resta el máximo para evitar problemas numéricos
+    return e_x / e_x.sum(axis=0)
+
+# Función para entrenar el perceptrón
+def train_perceptron(training_data, learning_rate, epochs):
+    # Inicialización de pesos y sesgo
+    num_features = len(training_data[0]["features"])
+    num_categories = len(set([example["label"] for example in training_data]))
+    weights = np.random.rand(num_categories, num_features)
+    bias = np.random.rand(num_categories)
+    
+    for epoch in range(epochs):
+        for example in training_data:
+            # Características y etiqueta del ejemplo
+            features = np.array(example["features"])
+            label = example["label"]
+            
+            # Cálculo de la suma ponderada + sesgo
+            weighted_sum = np.dot(weights, features) + bias
+            
+            # Aplicar softmax para obtener probabilidades
+            probabilities = softmax(weighted_sum)
+            
+            # Índice de la categoría predicha
+            predicted_category = np.argmax(probabilities)
+            
+            # Actualizar pesos y sesgo mediante el descenso del gradiente
+            if predicted_category != label:
+                weights[label] += learning_rate * features
+                weights[predicted_category] -= learning_rate * features
+                bias[label] += learning_rate
+                bias[predicted_category] -= learning_rate
+    
+    return weights, bias
+
+# Función para clasificar un libro en una categoría
+def classify_book(features, weights, bias):
+    weighted_sum = np.dot(weights, features) + bias
+    probabilities = softmax(weighted_sum)
+    predicted_category = np.argmax(probabilities)
+    return predicted_category
+
+# Conjunto de datos de entrenamiento (ejemplos etiquetados)
+training_data = [
+    #Intimidad y relaciones personales
+    # Nivel de tensión o miedo
+    # Elementos de misterio o enigma: 1
+    # Presencia de humor: 1
+    # Nivel de acción y adrenalina: 1
+    # Dinámica de personajes: 1
+    # Tono y atmósfera general: 1
+    # Resolución de conflictos: 1
+    # Presencia de elementos sobrenaturales: 1
+    # Diversidad de escenarios: 1
+    {"features": [5, 3, 2, 3, 1, 4 ,5, 4, 2,4], "label": 0},  # Romance
+    {"features": [3, 5, 5, 3, 5, 3, 4, 4, 5, 3], "label": 1},  # Terror
+    {"features": [3, 4, 5, 2, 3, 3, 4, 3, 3, 2], "label": 2},  # Misterio
+    {"features": [2, 5, 2, 5, 1, 3, 2, 4, 2, 3], "label": 3},  # Comedia
+    {"features": [2, 3, 3, 3, 4, 4, 3, 3, 3, 4], "label": 4}   # Acción
 ]
 
-# Etiquetas correspondientes a las emociones (1 para positivo, -1 para negativo, 0 para neutral)
-labels = [1, -1, 1, -1, 0]
+# Parámetros de entrenamiento
+learning_rate = 0.1
+epochs = 100
 
-# Función para extraer características de texto flexibles (cuenta de palabras)
-def extract_features(text):
-    words = text.lower().split()  # Convertir a minúsculas y dividir por palabras
-    features = {}
-    for word in words:
-        features[word] = features.get(word, 0) + 1
-    return features
+# Entrenar el perceptrón
+trained_weights, trained_bias = train_perceptron(training_data, learning_rate, epochs)
 
-# Extraer características de texto para cada ejemplo
-X = [extract_features(text) for text in text_features]
+# Ejemplo de clasificación de un libro
+print("Bienvenido al clasificador de libros. Por favor, ingresa la siguiente información en una escala del 1 al 5:")
+intimacy = int(input("Intimidad y relaciones personales: "))
+tension = int(input("Nivel de tensión o miedo: "))
+mystery = int(input("Elementos de misterio o enigma: "))
+humor = int(input("Presencia de humor: "))
+action = int(input("Nivel de acción y adrenalina: "))
+character_dynamic = int(input("Dinámica de personajes: "))
+tone = int(input("Tono y atmósfera general: "))
+conflict_resolution = int(input("Resolución de conflictos: "))
+supernatural = int(input("Presencia de elementos sobrenaturales: "))
+diversity = int(input("Diversidad de escenarios: "))
 
-# Crear una lista de palabras únicas a partir de las características extraídas
-unique_words = set()
-for example in X:
-    unique_words.update(example.keys())
-unique_words = list(unique_words)
+book_features = np.array([intimacy, tension, mystery, humor, action, character_dynamic, tone, conflict_resolution, supernatural, diversity])
+predicted_category = classify_book(book_features, trained_weights, trained_bias)
 
-# Convertir características en una matriz numpy
-X = np.array([[example.get(word, 0) for word in unique_words] for example in X])
+# Mapeo de categorías a nombres
+category_names = ["Romance", "Terror", "Misterio", "Comedia", "Acción"]
+predicted_category_name = category_names[predicted_category]
 
-# Definir el perceptrón
-class Perceptron:
-    def __init__(self, num_features):
-        self.weights = np.zeros(num_features)
-        self.bias = 0.0
-
-    def predict(self, x):
-        return 1 if np.dot(self.weights, x) + self.bias > 0 else -1 if np.dot(self.weights, x) + self.bias < 0 else 0
-
-    def train(self, X, y, learning_rate=0.1, epochs=100):
-        for _ in range(epochs):
-            for i in range(len(X)):
-                y_pred = self.predict(X[i])
-                self.weights += learning_rate * (y[i] - y_pred) * X[i]
-                self.bias += learning_rate * (y[i] - y_pred)
-
-# Inicializar y entrenar el perceptrón
-num_features = len(X[0])
-perceptron = Perceptron(num_features)
-perceptron.train(X, labels)
-
-# Prueba de predicción
-test_text = "Me encanta este lugar"
-test_features = extract_features(test_text)
-test_input = np.array([test_features.get(word, 0) for word in unique_words])
-prediction = perceptron.predict(test_input)
-
-if prediction == 1:
-    print("La emoción es positiva.")
-elif prediction == -1:
-    print("La emoción es negativa.")
-else:
-    print("La emoción es neutral.")
+print(f"El libro se clasifica en la categoría: {predicted_category_name}")
