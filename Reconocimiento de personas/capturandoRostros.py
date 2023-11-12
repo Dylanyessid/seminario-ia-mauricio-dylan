@@ -4,7 +4,7 @@ import imutils
 
 #Ingresar el nombre de la persona es importante, pues él indica donde guardarlo
 personName = input("Escoge el nombre de la persona: ")
-dataPath = 'C:/Users/Dylan Lopez/Downloads/Reconocimiento de personas/Data/'
+dataPath = 'D:/Personal/UNAULA/OctavoSemestre/IA/Repositorio/Reconocimiento de personas/Data/'
 
 personPath = dataPath + '/' + personName
 

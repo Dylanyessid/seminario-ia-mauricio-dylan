@@ -4,7 +4,7 @@ import cv2
 import os
 
 #Directorio con las imagenes de entrenamiento
-dataPath = 'C:/Users/Dylan Lopez/Downloads/Reconocimiento de personas/Data'
+dataPath = 'D:/Personal/UNAULA/OctavoSemestre/IA/Repositorio/Reconocimiento de personas/Data'
 imagePaths = os.listdir(dataPath)
 print('imagePaths=',imagePaths)
 
